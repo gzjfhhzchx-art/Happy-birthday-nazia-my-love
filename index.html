@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday, My Universe Nazia!</title>
+    <style>
+        /* Modern Design Tokens */
+        :root {
+            --primary: #ff4d6d;
+            --primary-light: #ff758f;
+            --secondary: #ffccd5;
+            --bg-gradient: linear-gradient(135deg, #fff0f3 0%, #ffe3e8 100%);
+            --glass: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --shadow: 0 8px 32px 0 rgba(255, 77, 109, 0.08);
+        }
+
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
+            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            color: #3d3436;
+        }
+
+        /* --- BIRTHDAY BLAST ANIMATION (CONFETTI) --- */
+        .confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2000;
+        }
+
+        .confetti {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 40px;
+            user-select: none;
+            animation: blastOut 2.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            opacity: 0;
+        }
+
+        @keyframes blastOut {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+                opacity: 1;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                /* Spreads things out in random, messy layout angles */
+                transform: translate(var(--x), var(--y)) scale(1.2) rotate(var(--r));
+                opacity: 0;
+            }
+        }
+
+        /* --- BIG DYNAMIC FLOATING BACKGROUND --- */
+        .animation-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        /* Much bigger size and organic 4-way float adjustments */
+        .floating-avatar {
+            position: absolute;
+            bottom: -120px;
+            font-size: 55px; /* Bigger emojis */
+            animation: floatComplex4Way 12s infinite ease-in-out;
+            filter: drop-shadow(0 12px 12px rgba(255,77,109,0.2));
+            will-change: transform, opacity;
+        }
+
+        @keyframes floatComplex4Way {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            30% {
+                /* Swings up and far right */
+                transform: translateY(-30vh) translateX(60px) rotate(45deg) scale(1.1);
+            }
+            55% {
+                /* Swings further up and shifts far left */
+                transform: translateY(-65vh) translateX(-50px) rotate(-30deg) scale(0.9);
+            }
+            80% {
+                /* Swings right again before exiting */
+                transform: translateY(-90vh) translateX(40px) rotate(60deg) scale(1.05);
+            }
+            100% {
+                transform: translateY(-120vh) translateX(0px) rotate(90deg) scale(0.7);
+                opacity: 0;
+            }
+        }
+
+        /* Soft Ambient Morphing Blobs */
+        .blob {
+            position: absolute;
+            background: linear-gradient(45deg, var(--secondary), #fff0f3);
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            filter: blur(40px);
+            z-index: 1;
+            animation: morph 8s infinite ease-in-out alternate;
+            pointer-events: none;
+        }
+
+        @keyframes morph {
+            0% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: translate(0, 0) scale(1); }
+            50% { border-radius: 70% 30% 50% 50% / 50% 70% 30% 70%; transform: translate(20px, -30px) scale(1.1); }
+            100% { border-radius: 42% 58% 30% 70% / 45% 45% 55% 55%; transform: translate(-10px, 10px) scale(0.95); }
+        }
+
+        .auto-reveal {
+            animation: fadeInUp 1s cubic-bezier(0.215, 0.610, 0.355, 1) both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Sticky Navigation Bar */
+        nav {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 92%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 12px 15px;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* Welcome Section Area */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cartoon-couple {
+            font-size: 80px;
+            margin-bottom: 10px;
+            animation: bounce 3s infinite ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary), #ff0055);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+        }
+
+        /* Container Sections */
+        .section {
+            padding: 100px 20px 40px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section h2 {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border-left: 6px solid var(--primary);
+            text-align: left;
+        }
+
+        .letter-envelope {
+            background: #ffffff;
+            border: 1px solid var(--glass-border);
+            padding: 30px 25px;
+            border-radius: 24px;
+            box-shadow: 0 15px 40px rgba(255, 77, 109, 0.1);
+            text-align: left;
+            line-height: 1.8;
+            white-space: pre-line;
+            max-width: 750px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .letter-envelope::before {
+            content: '💌';
+            position: absolute;
+            top: -22px;
+            right: 25px;
+            font-size: 2.5rem;
+        }
+
+        .wishes-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .wishes-card li {
+            list-style: none;
+            padding: 12px 0 12px 35px;
+            position: relative;
+            font-size: 1rem;
+            border-bottom: 1px dashed rgba(255, 77, 109, 0.15);
+            text-align: left;
+        }
+
+        .wishes-card li::before {
+            content: '🥰';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.5);
+            color: var(--primary);
+            padding: 35px 20px;
+            text-align: center;
+            font-weight: 700;
+            border-top: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="confetti-canvas">
+        <div class="confetti" style="--x: -120px; --y: -250px; --r: 45deg; animation-delay: 0.1s;">🎉</div>
+        <div class="confetti" style="--x: 140px; --y: -280px; --r: -60deg; animation-delay: 0.15s;">🥳</div>
+        <div class="confetti" style="--x: -200px; --y: -100px; --r: 90deg; animation-delay: 0.2s;">✨</div>
+        <div class="confetti" style="--x: 180px; --y: -90px; --r: -30deg; animation-delay: 0.25s;">🎉</div>
+        <div class="confetti" style="--x: -80px; --y: -320px; --r: 120deg; animation-delay: 0.3s;">🥰</div>
+        <div class="confetti" style="--x: 70px; --y: -340px; --r: -80deg; animation-delay: 0.35s;">😘</div>
+        <div class="confetti" style="--x: 0px; --y: -380px; --r: 15deg; animation-delay: 0.4s;">💖</div>
+    </div>
+
+    <div class="animation-canvas">
+        <div class="floating-avatar" style="left: 8%; animation-delay: 0s; animation-duration: 11s;">🥰</div>
+        <div class="floating-avatar" style="left: 28%; animation-delay: 3s; animation-duration: 9s;">😘</div>
+        <div class="floating-avatar" style="left: 52%; animation-delay: 1s; animation-duration: 13s;">🐱</div>
+        <div class="floating-avatar" style="left: 76%; animation-delay: 5s; animation-duration: 10s;">🐻</div>
+    </div>
+
+    <div class="blob" style="width: 250px; height: 250px; top: 15%; left: -50px;"></div>
+    <div class="blob" style="width: 300px; height: 300px; top: 65%; right: -50px; animation-duration: 11s;"></div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#stats">Stats</a>
+        <a href="#story">Story</a>
+        <a href="#reasons">Reasons</a>
+        <a href="#letter">Letter</a>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="cartoon-couple">👩‍❤️‍👨</div>
+        <h1>Happy Birthday, My Queen Nazia!</h1>
+        <p>I crafted this digital universe exclusively for you. Swipe down to see what's waiting. ✨</p>
+    </section>
+
+    <section id="stats" class="section auto-reveal">
+        <h2>Our Life In Numbers</h2>
+        <div class="grid-layout">
+            <div class="card">
+                <div class="card-icon">⏳</div>
+                <h3 style="font-size: 2rem; color: var(--primary);">365+</h3>
+                <p style="color: #666; font-size: 0.95rem;">Days of pure joy and happiness together.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤤🥴🤭</div>
+                <h3 style="font-size: 2rem; color: var(--primary);">1,000+</h3>
+                <p style="color: #666; font-size: 0.95rem;">Conversations & endless inside jokes.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💖</div>
+                <h3 style="font-size: 2rem; color: var(--primary);">∞</h3>
+                <p style="color: #666; font-size: 0.95rem;">The amount of love growing for you daily.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="story" class="section auto-reveal">
+        <h2>The Journey So Far</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3 style="color: var(--primary-light); margin-bottom: 6px; font-size: 1.15rem;">When i look at you 🌸</h3>
+                <p style="font-size: 0.95rem;">Every time our eyes meet, I’m reminded of all the inside jokes we share, the long talks, and the quiet moments where we don’t even need to say anything at all to understand each other. You have this amazing way of making me feel completely safe and happy, just by being yourself..</p>
+            </div>
+            <div class="timeline-item">
+                <h3 style="color: var(--primary-light); margin-bottom: 6px; font-size: 1.15rem;">our first talk when we know we are loving each other 💖</h3>
+                <p style="font-size: 0.95rem;">The very first time we actually talked, I remember feeling this instant spark that I couldn't quite explain. I might have been a little nervous, but the moment you started speaking, all of that pressure completely melted away. Conversations with people can sometimes feel forced, but with you, it was entirely effortless. We just clicked. We went from basic introductions to laughing like we had known each other for years, and by the time that first conversation ended, I already knew you were someone incredibly special. It’s crazy to think that a single conversation was the start of my absolute favorite chapter in life.".</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="reasons" class="section auto-reveal">
+        <h2>Why I Admire You</h2>
+        <div class="grid-layout">
+            <div class="card">
+                <div class="card-icon">👑</div>
+                <h3 style="margin-bottom: 8px; font-size: 1.2rem;">Your Grace</h3>
+                <p style="font-size: 0.95rem; color: #555;">The beautiful, elegant way you bring light into every single room you walk into.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h3 style="margin-bottom: 8px; font-size: 1.2rem;">Your Mind</h3>
+                <p style="font-size: 0.95rem; color: #555;">How exceptionally clever, creative, and inspiring you are every single day.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🧸</div>
+                <h3 style="margin-bottom: 8px; font-size: 1.2rem;">Your Heart</h3>
+                <p style="font-size: 0.95rem; color: #555;">The infinite amount of pure kindness, support, and warmth you consistently show me.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="letter" class="section auto-reveal">
+        <h2>My Letter to You</h2>
+        <div class="letter-envelope">
+            Dear Nazia,
+
+            Happy Birthday,Nazia ! 🎉
+
+            Today is all about celebrating the most incredible person I know. I wanted to build this premium digital space for you because a standard paper birthday card could never match how much you truly mean to me.
+
+            From the moment you entered my world, everything changed for the better. Your voice is my peace, your humor is my joy, and your smile is my daily inspiration. Thank you for being my absolute best friend, my perfect teammate, and my biggest cheerleader.
+
+            I hope this layout brings a huge smile to your face today. You deserve absolute perfection.
+
+            With all my love forever,  
+            Farhan Labib ❤️
+        </div>
+    </section>
+
+    <section class="section auto-reveal">
+        <h2>Our Future Adventures</h2>
+        <div class="wishes-card">
+            <ul>
+                <li>Love isn't something you find. Love is something that finds you.</li>
+                <li>Conquering all of our long-term goals as a perfect team. 😘</li>
+                <li>Celebrating countless more beautiful birthdays right by your side. 🥰</li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        Designed beautifully by FARHAN LABIB for my love NAZIA NOWER😘 © 2026
+    </footer>
+
+</body>
+</html>
+
